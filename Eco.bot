@@ -1,0 +1,33 @@
+import discord
+from discord.ext import commands, tasks
+import random
+
+intents = discord.Intents.default()
+intents.messages = True
+intents.message_content = True
+EcoBot = commands.Bot(command_prefix="!", intents=intents)
+
+@EcoBot.event
+async def on_ready():
+    print(f"EcoBot {EcoBot.user} listo para salvar el planeta 🌍!")
+    tip_diario.start()
+
+Tips = [
+    "Tip: Usa bombillas LED para ahorrar energía.",
+    "Tip: Lleva tus propias bolsas reutilizables cuando vayas de compras.",
+    "Tip: Planta un árbol en tu comunidad para combatir el cambio climático.",
+    "Tip: Apaga los aparatos electrónicos cuando no los uses.",
+    "Tip: Reduce tu consumo de agua cerrando el grifo mientras te cepillas los dientes."
+    "Tip: Desenchufar los dispositivos que no utilices y usar bombillas de bajo consumo."
+    "Tip: Moderar el uso de la calefacción y del aire acondicionado."
+    "Tip: Reciclar y separar la basura todo lo que puedas."
+    "Tip: Usar medios de transporte más sostenibles."
+]
+
+@tasks.loop(hours=24)
+async def tip_diario():
+    canal = EcoBot.get_channel(1324501264947478590)
+    if canal:
+        await canal.send(random.choice(Tips))
+
+EcoBot.run("MTMzMjEwMzk1MTMxMDM5MzQ2Nw.GTYWBw.eMvKKledY0_BOySVGn6RxwPIv7nM61DYLrMtls")
